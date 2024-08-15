@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.nav-links:hover {
+  color: yellow;
+}
+#mobile-input::-webkit-inner-spin-button {
+  display: none;
+}

@@ -52,7 +52,22 @@ export const verifyToken = (req, res, next) => {
       }
       next();
     });
+  } else {
+    return res.sendStatus(401);
   }
-  return res.sendStatus(401);
 };
+
+// Available credits and username
+router.get("/credits/:userID", verifyToken, async (req, res) => {
+  const { userID } = req.params;
+  try {
+    const user = await UserModel.findById(userID);
+    if (!user) {
+      res.json({ message: "No user Found!" });
+    }
+    res.json({ availableCredits: user.creadits, currUser: user.username });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 export { router as userRouter };

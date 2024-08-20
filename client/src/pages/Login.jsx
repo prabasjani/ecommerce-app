@@ -1,19 +1,24 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [_, setCookies] = useCookies(["access_token"]);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3001/user/login", {
+      const result = await axios.post("http://localhost:3001/user/login", {
         username,
         password,
       });
+      setCookies("access_token", result.data.token);
+      localStorage.setItem("userID", result.data.userID);
       navigate("/");
     } catch (error) {
       if (error) {

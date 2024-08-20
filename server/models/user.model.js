@@ -22,6 +22,9 @@ const UserSchema = new Schema({
     type: Number,
     default: 10000,
   },
+  purchasedItems: [
+    { type: Schema.Types.ObjectId, ref: "product", default: [] },
+  ],
 });
 
 export const UserModel = model("users", UserSchema);

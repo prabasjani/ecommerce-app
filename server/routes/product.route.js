@@ -59,4 +59,20 @@ router.post("/orders", verifyToken, async (req, res) => {
   }
 });
 
+router.get("/orders/:userID", verifyToken, async (req, res) => {
+  const { userID } = req.params;
+  try {
+    const user = await UserModel.findById(userID);
+    if (!user) {
+      res.status(400).json({ message: "No user Found!" });
+    }
+    const products = await ProductModel.find({
+      _id: { $in: user.purchasedItems },
+    });
+
+    res.json({ purchasedItems: products });
+  } catch (error) {
+    console.log(error);
+  }
+});
 export { router as productRouter };

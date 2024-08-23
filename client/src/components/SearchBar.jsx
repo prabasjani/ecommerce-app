@@ -27,7 +27,6 @@ const SearchBar = () => {
             <option className="p-4" value="">
               {currentUser.toUpperCase()}
             </option>
-            <option value="signout">Sign-out</option>
           </select>
         </div>
       </div>

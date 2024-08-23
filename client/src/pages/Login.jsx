@@ -1,12 +1,14 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { ShopContext } from "../context/ShopContext";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [_, setCookies] = useCookies(["access_token"]);
+  const { fetchUserInfo, setIsAuthenticated } = useContext(ShopContext);
 
   const navigate = useNavigate();
 
@@ -19,13 +21,16 @@ const Login = () => {
       });
       setCookies("access_token", result.data.token);
       localStorage.setItem("userID", result.data.userID);
+      fetchUserInfo();
+      setIsAuthenticated(true);
       navigate("/");
     } catch (error) {
-      if (error) {
-        alert(error?.response?.data?.message);
-      } else {
-        alert("Something went wrong");
-      }
+      // if (error) {
+      //   alert(error?.response?.data?.message);
+      // } else {
+      //   alert("Something went wrong");
+      // }
+      console.log(error);
     }
   };
 

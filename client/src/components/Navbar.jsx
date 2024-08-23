@@ -1,27 +1,45 @@
+import { useContext } from "react";
+import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
+import { ShopContext } from "../context/ShopContext";
+import SearchBar from "./SearchBar";
 
 const Navbar = () => {
-  return (
-    <div className="bg-black text-white flex items-center justify-between py-5 px-20">
-      <h1 className="text-3xl font-bold">
-        <span className="text-yellow-400">K</span>umazon
-      </h1>
+  const [_, setCookies] = useCookies(["access_token"]);
+  const { isAuthenticated } = useContext(ShopContext);
 
-      <div className="flex gap-4 font-semibold">
-        <Link to="/" className="nav-links">
-          Shop
-        </Link>
-        <Link to="/orders" className="nav-links">
-          Orders
-        </Link>
-        <Link to="/cart" className="nav-links">
-          Cart
-        </Link>
-        <Link to="/login" className="nav-links">
-          Login
-        </Link>
+  const logout = () => {
+    localStorage.clear();
+    setCookies("access_token", null);
+    isAuthenticated(false);
+  };
+
+  return (
+    <>
+      <div className="bg-black text-white flex items-center justify-between py-5 px-20">
+        <h1 className="text-3xl font-bold">
+          <span className="text-yellow-400">K</span>umazon
+        </h1>
+
+        {isAuthenticated && (
+          <div className="flex gap-4 font-semibold">
+            <Link to="/" className="nav-links">
+              Shop
+            </Link>
+            <Link to="/orders" className="nav-links">
+              Orders
+            </Link>
+            <Link to="/cart" className="nav-links">
+              Cart
+            </Link>
+            <Link to="/login" className="nav-links" onClick={logout}>
+              Logout
+            </Link>
+          </div>
+        )}
       </div>
-    </div>
+      {isAuthenticated && <SearchBar />}
+    </>
   );
 };
 

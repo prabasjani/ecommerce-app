@@ -3,7 +3,7 @@ import { createContext } from "react";
 import useGetProducts from "../hooks/useGetProducts";
 import useGetToken from "../hooks/useGetToken";
 import axios from "axios";
-// import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 export const ShopContext = createContext({});
 const ShopContextProvider = ({ children }) => {
@@ -12,7 +12,11 @@ const ShopContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState("");
   const { products } = useGetProducts();
   const { headers } = useGetToken();
-  // const navigate = useNavigate();
+  const [pervOrders, setPrevOrders] = useState([]);
+  const [cookies, _] = useCookies(["access_token"]);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    cookies.access_token !== null
+  );
 
   // Available credits
   const fetchUserInfo = async () => {
@@ -24,7 +28,23 @@ const ShopContextProvider = ({ children }) => {
       setCredits(fetchedUser.data.availableCredits);
       setCurrentUser(fetchedUser.data.currUser);
     } catch (error) {
-      alert("Error: ");
+      // alert("Error: Oops! Something went wrong!");
+      console.log(error);
+    }
+  };
+
+  const fetchPrevOrders = async () => {
+    try {
+      const fetchedProducts = await axios.get(
+        `http://localhost:3001/products/orders/${localStorage.getItem(
+          "userID"
+        )}`,
+        { headers }
+      );
+      setPrevOrders(fetchedProducts.data.purchasedItems);
+    } catch (error) {
+      // alert("Error: Oops! Something went wrong!");
+      console.log(error);
     }
   };
 
@@ -42,8 +62,8 @@ const ShopContextProvider = ({ children }) => {
     }
   };
   const removeFromCart = (itemId) => {
-    // if (!cartItems[itemId]) return;
-    // if (cartItems[itemId] == 0) return;
+    if (!cartItems[itemId]) return;
+    if (cartItems[itemId] == 0) return;
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
   };
   const updateCartCount = (newCount, itemId) => {
@@ -62,9 +82,12 @@ const ShopContextProvider = ({ children }) => {
     return totalAmount;
   };
 
-  // This useEffect was used for Fetched Credit points
+  // This useEffect was used for Fetched Credit points and Previous Orders
   useEffect(() => {
-    fetchUserInfo();
+    if (isAuthenticated) {
+      fetchUserInfo();
+      fetchPrevOrders();
+    }
   }, []);
 
   const contextValue = {
@@ -76,6 +99,11 @@ const ShopContextProvider = ({ children }) => {
     cartItems,
     credits,
     currentUser,
+    fetchUserInfo,
+    setCartItems,
+    pervOrders,
+    isAuthenticated,
+    setIsAuthenticated,
   };
   return (
     <ShopContext.Provider value={contextValue}>{children}</ShopContext.Provider>

@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import useGetToken from "./useGetToken";
+import { ShopContext } from "../context/ShopContext";
 
 const useGetProducts = () => {
   const [products, setProducts] = useState([]);
   const { headers } = useGetToken();
+  const { isAuthenticated } = useContext(ShopContext);
 
   const fetchProducts = async () => {
     try {
@@ -13,7 +15,8 @@ const useGetProducts = () => {
       });
       setProducts(fetched.data.products);
     } catch (error) {
-      alert("Error: Something went Wrong!");
+      // alert("Error: Something went Wrong!");
+      console.log(error);
     }
   };
 

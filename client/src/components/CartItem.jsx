@@ -13,7 +13,9 @@ const CartItem = ({ product }) => {
       </div>
       <div className="flex flex-col">
         <h3 className="text-3xl font-bold capitalize ">{productName}</h3>
-        <p className="text-lg font-extrabold my-3">Price : $.{price}.00</p>
+        <p className="text-lg font-extrabold my-3">
+          Price : $.{price.toFixed(2)}
+        </p>
         <div className="">
           <button
             className="rounded-l-lg text-2xl bg-red-600 px-5 py-2 text-white font-extrabold"

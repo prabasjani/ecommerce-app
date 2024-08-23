@@ -6,14 +6,12 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ShopContextProvider from "./context/ShopContext";
-import SearchBar from "./components/SearchBar";
 
 const App = () => {
   return (
     <ShopContextProvider>
       <Router>
         <Navbar />
-        <SearchBar />
         <Routes>
           <Route path="/" element={<Shop />} />
           <Route path="/login" element={<Login />} />

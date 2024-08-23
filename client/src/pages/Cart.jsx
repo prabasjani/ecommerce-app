@@ -9,7 +9,13 @@ import axios from "axios";
 const Cart = () => {
   const { products } = useGetProducts();
   const { headers } = useGetToken();
-  const { cartItemCount, cartTotalAmount, cartItems } = useContext(ShopContext);
+  const {
+    cartItemCount,
+    cartTotalAmount,
+    cartItems,
+    fetchUserInfo,
+    setCartItems,
+  } = useContext(ShopContext);
   const totalAmount = cartTotalAmount();
   const navigate = useNavigate();
 
@@ -20,6 +26,9 @@ const Cart = () => {
       await axios.post("http://localhost:3001/products/orders", body, {
         headers,
       });
+      setCartItems({});
+      fetchUserInfo();
+      // fetchPrevOrders    // uncomment incase of not adding the product to the orders page
       navigate("/");
     } catch (error) {
       console.log(error);

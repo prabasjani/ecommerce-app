@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import useGetProducts from "../hooks/useGetProducts";
 import Product from "../components/Product";
+import { ShopContext } from "../context/ShopContext";
+import { Navigate } from "react-router-dom";
 
 const Shop = () => {
   const { products } = useGetProducts();
+  const { isAuthenticated } = useContext(ShopContext);
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
   return (
     <div className="py-5 px-20 flex flex-col">
       <h1 className="text-3xl text-indigo-600 font-bold text-center">

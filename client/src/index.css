@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer {
+  body {
+    background: #edf4ff;
+  }
+}
 .nav-links:hover {
   color: yellow;
 }

@@ -16,11 +16,11 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="bg-black text-white flex items-center justify-between py-5 px-20">
+      <div className="bg-black text-white flex items-center justify-between px-16 py-2">
         <h1 className="text-3xl font-bold">
           <span className="text-yellow-400">K</span>umazon
         </h1>
-
+        {isAuthenticated && <SearchBar />}
         {isAuthenticated && (
           <div className="flex gap-4 font-semibold">
             <Link to="/" className="nav-links">
@@ -38,7 +38,6 @@ const Navbar = () => {
           </div>
         )}
       </div>
-      {isAuthenticated && <SearchBar />}
     </>
   );
 };

@@ -30,7 +30,7 @@ const Register = () => {
 
   return (
     <div className="container flex items-center justify-center px-20 h-[600px]">
-      <div className="flex flex-col w-1/4 border-white rounded-md shadow-md p-7">
+      <div className="flex flex-col w-1/4 bg-white rounded-lg p-7 hover:shadow-md">
         <h1 className="mb-10 text-2xl font-semibold text-center">
           Please Register
         </h1>

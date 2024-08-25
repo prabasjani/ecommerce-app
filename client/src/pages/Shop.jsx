@@ -16,7 +16,7 @@ const Shop = () => {
       <h1 className="text-3xl text-indigo-600 font-bold text-center">
         All Products
       </h1>
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid grid-cols-6 gap-5 mt-10">
         {products.map((product, index) => {
           return <Product product={product} key={index} />;
         })}

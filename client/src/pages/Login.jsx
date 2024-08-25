@@ -7,6 +7,7 @@ import { ShopContext } from "../context/ShopContext";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [_, setCookies] = useCookies(["access_token"]);
   const { fetchUserInfo, setIsAuthenticated } = useContext(ShopContext);
 
@@ -14,29 +15,37 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const result = await axios.post("http://localhost:3001/user/login", {
-        username,
-        password,
-      });
-      setCookies("access_token", result.data.token);
-      localStorage.setItem("userID", result.data.userID);
-      fetchUserInfo();
-      setIsAuthenticated(true);
-      navigate("/");
-    } catch (error) {
-      // if (error) {
-      //   alert(error?.response?.data?.message);
-      // } else {
-      //   alert("Something went wrong");
-      // }
-      console.log(error);
+    if (!username) {
+      setError("Please Enter a Username");
+    }
+    if (!password) {
+      setError("Please Enter a Password!");
+    }
+    // setError("");
+    if (username && password) {
+      try {
+        const result = await axios.post("http://localhost:3001/user/login", {
+          username,
+          password,
+        });
+        setCookies("access_token", result.data.token);
+        localStorage.setItem("userID", result.data.userID);
+        fetchUserInfo();
+        if (username && result.data.userID) {
+          setIsAuthenticated(true);
+          navigate("/");
+        } else {
+          setError("Invalid Credentials");
+        }
+      } catch (error) {
+        setError(error);
+      }
     }
   };
 
   return (
     <div className="container flex items-center justify-center px-20 h-[600px]">
-      <div className="flex flex-col w-1/4 border-white rounded-md shadow-md p-7">
+      <div className="flex flex-col w-1/4 bg-white rounded-lg p-7 mx-auto hover:shadow-md">
         <h1 className="mb-10 text-2xl font-semibold text-center">
           Please Login
         </h1>
@@ -55,6 +64,7 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <p className="text-sm text-red-500 mb-3">{error}</p>
           <button
             type="submit"
             className="w-full py-3 text-white bg-blue-500 rounded cursor-pointer"

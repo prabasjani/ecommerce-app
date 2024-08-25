@@ -7,11 +7,11 @@ const CartItem = ({ product }) => {
     useContext(ShopContext);
   const cartCount = cartItemCount(_id);
   return (
-    <div className="w-[650px] shadow-xl p-5 flex items-center justify-around rounded-xl">
-      <div className="">
+    <div className="w-[650px] bg-white px-10 py-5 mb-5 flex items-center gap-5 rounded-xl hover:shadow-xl">
+      <div className="w-[200px]">
         <img src={imageURL} width={175} alt="" />
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col items-start">
         <h3 className="text-3xl font-bold capitalize ">{productName}</h3>
         <p className="text-lg font-extrabold my-3">
           Price : $.{price.toFixed(2)}

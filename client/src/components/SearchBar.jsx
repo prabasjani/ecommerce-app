@@ -2,14 +2,15 @@ import { useContext } from "react";
 import { ShopContext } from "../context/ShopContext";
 
 const SearchBar = () => {
-  const { credits, currentUser } = useContext(ShopContext);
+  const { credits, currentUser, setSearch } = useContext(ShopContext);
   return (
     <div className="flex items-center justify-between gap-12">
       <div className="">
         <input
           type="text"
           placeholder="Search Products..."
-          className="px-5 py-2 w-[300px] border-gray-300 border-2 rounded-full focus:outline-none"
+          className="px-5 py-2 w-[300px] border-gray-300 text-slate-700 border-2 rounded-full focus:outline-none"
+          onChange={(e) => setSearch(e.target.value)}
         />
       </div>
       <div className="flex items-center gap-10">

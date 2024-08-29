@@ -6,7 +6,7 @@ import { Navigate } from "react-router-dom";
 
 const Shop = () => {
   const { products } = useGetProducts();
-  const { isAuthenticated } = useContext(ShopContext);
+  const { isAuthenticated, search } = useContext(ShopContext);
 
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
@@ -17,9 +17,15 @@ const Shop = () => {
         All Products
       </h1>
       <div className="grid grid-cols-6 gap-5 mt-10">
-        {products.map((product, index) => {
-          return <Product product={product} key={index} />;
-        })}
+        {products
+          .filter((product) => {
+            return search.toLowerCase === ""
+              ? product
+              : product.productName.toLowerCase().includes(search);
+          })
+          .map((product, index) => {
+            return <Product product={product} key={index} />;
+          })}
       </div>
     </div>
   );

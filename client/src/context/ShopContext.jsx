@@ -17,6 +17,7 @@ const ShopContextProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     cookies.access_token !== null
   );
+  const [search, setSearch] = useState("");
 
   // Available credits
   const fetchUserInfo = async () => {
@@ -104,6 +105,8 @@ const ShopContextProvider = ({ children }) => {
     pervOrders,
     isAuthenticated,
     setIsAuthenticated,
+    search,
+    setSearch,
   };
   return (
     <ShopContext.Provider value={contextValue}>{children}</ShopContext.Provider>

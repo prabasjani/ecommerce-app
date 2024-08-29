@@ -17,9 +17,9 @@ const Navbar = () => {
   return (
     <>
       <div className="bg-black text-white flex items-center justify-between px-16 py-2">
-        <h1 className="text-3xl font-bold">
-          <span className="text-yellow-400">K</span>umazon
-        </h1>
+        <a href="#" className="text-3xl font-bold navBrand">
+          <span className="text-yellow-400 tracking-widest">Gad</span>get Hub
+        </a>
         {isAuthenticated && <SearchBar />}
         {isAuthenticated && (
           <div className="flex gap-4 font-semibold">
